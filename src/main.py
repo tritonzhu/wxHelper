@@ -7,12 +7,8 @@ from PyQt5 import QtCore, QtWidgets, QtWebEngineWidgets
 from PyQt5.QtCore import QThread
 from PyQt5.QtGui import QIcon
 
-import cherrypy
 import config
 from webapp import webapp
-
-
-cherrypy.config.update({'server.socket_port': config.HTTP_PORT})
 
 
 class WebDaemon(QThread):
@@ -21,7 +17,6 @@ class WebDaemon(QThread):
         self.app = app
 
     def run(self):
-        # cherrypy.tree.graft(self.app, '/')
         self.app.run(port=config.HTTP_PORT)
 
 
