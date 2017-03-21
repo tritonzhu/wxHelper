@@ -26,7 +26,7 @@ class LoginHandler(RequestHandler):
 class FriendsHandler(RequestHandler):
     def get(self):
         response = {
-            'friends': bot.friends()
+            'friends': [friend.to_json() for friend in bot.friends()]
         }
         self.write(response)
 
@@ -34,9 +34,28 @@ class FriendsHandler(RequestHandler):
 class GroupHandler(RequestHandler):
     def get(self):
         response = {
-            'groups': bot.groups()
+            'groups': [group.to_json() for group in bot.groups()]
         }
         self.write(response)
+
+
+class GroupMemberHandler(RequestHandler):
+    def get(self, user_name):
+        group = bot.search_group(user_name)
+        if group:
+            members = group.members
+            member_data_list = []
+            for member in members:
+                data = member.to_json()
+                data['is_friend'] = member.is_friend
+                member_data_list.append(data)
+
+            response = {
+                'members': member_data_list
+            }
+            self.write(response)
+        else:
+            self.set_status(404)
 
 
 class FriendAvatarHandler(RequestHandler):

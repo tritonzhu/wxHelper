@@ -1,10 +1,7 @@
-import time
-import re
-import random
 import io
-import xml.dom.minidom
 import requests
 import itchat
+from entity import Group, Friend
 
 from pyqrcode import QRCode
 
@@ -18,7 +15,7 @@ class Bot:
     def __init__(self):
         self.session = requests.session()
         self.uuid = None
-        self.isLogging = True
+        self.is_logging = True
 
     def get_uuid(self):
         self.uuid = itchat.get_QRuuid()
@@ -32,19 +29,19 @@ class Bot:
         return qr_bytes.getvalue()
 
     def login(self):
-        while self.isLogging:
-            isLoggedIn = False
-            while not isLoggedIn:
+        while self.is_logging:
+            is_logged_in = False
+            while not is_logged_in:
                 status = itchat.check_login()
                 print(status)
                 if status == '200':
-                    isLoggedIn = True
+                    is_logged_in = True
                 elif status == '201':
-                    if isLoggedIn is not None:
-                        isLoggedIn = None
+                    if is_logged_in is not None:
+                        is_logged_in = None
                 elif status != '408':
                     break
-            if isLoggedIn:
+            if is_logged_in:
                 break
         else:
             return # log in process is stopped by user
@@ -52,20 +49,52 @@ class Bot:
         itchat.web_init()
         itchat.show_mobile_login()
         itchat.get_contact(True)
-        self.isLogging = False
+        self.is_logging = False
         itchat.start_receiving()
 
     def friends(self):
-        return itchat.get_friends()
+        friends = itchat.get_friends()
+        friend_list = [Friend(friend, self) for friend in friends]
+        return friend_list
+
+    def search_friend(self, user_name):
+        friends = itchat.get_friends()
+        friend_list = [Friend(friend, self) for friend in friends]
+        for friend in friend_list:
+            if friend.user_name == user_name:
+                return friend
+        return None
 
     def groups(self):
-        return itchat.get_chatrooms()
+        groups = itchat.get_chatrooms()
+        group_list = [Group(group, self) for group in groups]
+        return group_list
 
-    def get_friend_avatar(self, username):
-        return itchat.get_head_img(userName=username)
+    def search_group(self, user_name):
+        groups = itchat.get_chatrooms()
+        group_list = [Group(group, self) for group in groups]
+        for group in group_list:
+            if group.user_name == user_name:
+                return group
+        return None
 
-    def get_group_avatar(self, username):
-        return itchat.get_head_img(chatroomUserName=username)
+    def get_friend_avatar(self, user_name):
+        return itchat.get_head_img(userName=user_name)
+
+    def get_group_avatar(self, user_name):
+        return itchat.get_head_img(chatroomUserName=user_name)
+
+    def add_friend(self, user_name, verify_content=''):
+        return itchat.add_friend(user_name, verifyContent=verify_content)
+
+    def accept_friend(self, user_name, verify_content=''):
+        return itchat.add_friend(user_name, status=3, verifyContent=verify_content)
+
+    def set_alias(self, user_name, remark_name):
+        return itchat.set_alias(user_name, remark_name)
+
+    def update_chatroom(self, user_name, member_details=False):
+        return itchat.update_chatroom(user_name, detailedMember=member_details)
 
 if __name__ == '__main__':
     bot = Bot()
