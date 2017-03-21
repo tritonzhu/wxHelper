@@ -6,9 +6,10 @@ import sys
 from PyQt5 import QtCore, QtWidgets, QtWebEngineWidgets
 from PyQt5.QtCore import QThread
 from PyQt5.QtGui import QIcon
+import tornado.ioloop
 
 import config
-from webapp import webapp
+from tornadoapp import application
 
 
 class WebDaemon(QThread):
@@ -17,7 +18,8 @@ class WebDaemon(QThread):
         self.app = app
 
     def run(self):
-        self.app.run(port=config.HTTP_PORT)
+        self.app.listen(config.HTTP_PORT)
+        tornado.ioloop.IOLoop.current().start()
 
 
 if __name__ == '__main__':
@@ -26,7 +28,7 @@ if __name__ == '__main__':
         appid = 'me.muyan.wxhelper'
         ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(appid)
 
-    web_daemon = WebDaemon(webapp)
+    web_daemon = WebDaemon(application)
     web_daemon.start()
 
     qtapp = QtWidgets.QApplication(sys.argv)
