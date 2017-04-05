@@ -6,7 +6,7 @@ bot = Bot()
 
 class RootHandler(RequestHandler):
     def get(self):
-        self.render('index.html')
+        self.write('hello')
 
 
 class QrcodeHandler(RequestHandler):
