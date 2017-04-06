@@ -29,28 +29,16 @@ class Bot:
         return qr_bytes.getvalue()
 
     def login(self):
-        while self.is_logging:
-            is_logged_in = False
-            while not is_logged_in:
-                status = itchat.check_login()
-                print(status)
-                if status == '200':
-                    is_logged_in = True
-                elif status == '201':
-                    if is_logged_in is not None:
-                        is_logged_in = None
-                elif status != '408':
-                    break
-            if is_logged_in:
-                break
-        else:
-            return # log in process is stopped by user
-        print('logged in')
-        itchat.web_init()
-        itchat.show_mobile_login()
-        itchat.get_contact(True)
-        self.is_logging = False
-        itchat.start_receiving()
+        status = itchat.check_login()
+        print(status)
+        if status == '200':
+            print('logged in')
+            itchat.web_init()
+            itchat.show_mobile_login()
+            itchat.get_contact(True)
+            self.is_logging = False
+            itchat.start_receiving()
+        return status
 
     def friends(self):
         friends = itchat.get_friends()

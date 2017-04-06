@@ -1,6 +1,6 @@
 __author__ = 'Triton'
 
-APP_WIDTH = 900
+APP_WIDTH = 800
 APP_HEIGHT = 600
 
 BASE_URL = 'http://localhost:11235'

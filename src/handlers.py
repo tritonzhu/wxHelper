@@ -19,8 +19,7 @@ class QrcodeHandler(RequestHandler):
 
 class LoginHandler(RequestHandler):
     def get(self):
-        bot.login()
-        self.write('ok')
+        self.write(bot.login())
 
 
 class FriendsHandler(RequestHandler):
