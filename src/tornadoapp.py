@@ -12,6 +12,7 @@ routers = [
     (r'/api/friends/(@[a-z0-9]+)/avatar', handlers.FriendAvatarHandler),
     (r'/api/groups/(@@[a-z0-9]+)/avatar', handlers.GroupAvatarHandler),
     (r'/api/groups/(@@[a-z0-9]+)/members', handlers.GroupMemberHandler),
+    (r'/api/groups/(@@[a-z0-9]+)/(@[a-z0-9]+)/avatar', handlers.GroupMemberAvatarHandler),
 ]
 
 application = tornado.web.Application(handlers=routers, template_path='../templates', static_path='../static')

@@ -75,3 +75,11 @@ class GroupAvatarHandler(RequestHandler):
     def get(self, username):
         self.add_header('Content-Type', 'image/jpg')
         self.write(bot.get_group_avatar(username))
+
+
+class GroupMemberAvatarHandler(RequestHandler):
+    def get(self, group_username, username):
+        self.add_header('Content-Type', 'image/jpg')
+        self.write(bot.get_group_member_avatar(group_username, username))
+
+

@@ -75,6 +75,9 @@ class Bot:
     def get_group_avatar(self, user_name):
         return itchat.get_head_img(chatroomUserName=user_name)
 
+    def get_group_member_avatar(self, group_user_name, user_name):
+        return itchat.get_head_img(chatroomUserName=group_user_name, userName=user_name)
+
     def add_friend(self, user_name, verify_content=''):
         return itchat.add_friend(user_name, verifyContent=verify_content)
 
