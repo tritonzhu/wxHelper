@@ -6,7 +6,8 @@ bot = Bot()
 
 class RootHandler(RequestHandler):
     def get(self):
-        self.write('hello')
+        self.redirect('http://127.0.0.1:8080/index')
+        # self.write('hello')
 
 
 class QrcodeHandler(RequestHandler):
@@ -20,6 +21,13 @@ class QrcodeHandler(RequestHandler):
 class LoginHandler(RequestHandler):
     def get(self):
         self.write(bot.login())
+
+
+class LogoutHandler(RequestHandler):
+    def get(self):
+        bot.logout()
+        self.write('logged out')
+        # self.redirect('/login')
 
 
 class FriendsHandler(RequestHandler):

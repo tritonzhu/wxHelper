@@ -6,6 +6,7 @@ routers = [
     (r'/', handlers.RootHandler),
     (r'/api/qrcode.png', handlers.QrcodeHandler),
     (r'/api/login', handlers.LoginHandler),
+    (r'/api/logout', handlers.LogoutHandler),
     (r'/api/friends', handlers.FriendsHandler),
     (r'/api/groups', handlers.GroupHandler),
     (r'/api/friends/(@[a-z0-9]+)/avatar', handlers.FriendAvatarHandler),

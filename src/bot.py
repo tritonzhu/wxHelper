@@ -40,6 +40,9 @@ class Bot:
             itchat.start_receiving()
         return status
 
+    def logout(self):
+        itchat.logout()
+
     def friends(self):
         friends = itchat.get_friends()
         friend_list = [Friend(friend, self) for friend in friends]
