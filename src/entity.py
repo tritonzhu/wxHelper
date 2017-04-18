@@ -164,6 +164,7 @@ class User(Chat):
         }
         return data
 
+
 class Group(Chat):
     """
     群聊对象
@@ -179,11 +180,11 @@ class Group(Chat):
         """
         def raw_member_list(update=False):
             if update:
-                self.update_group()
+                self.update_group(members_details=update)
             return self.raw.get('MemberList', list())
 
         ret = []
-        for raw in raw_member_list() or raw_member_list(True):
+        for raw in raw_member_list(True):
             ret.append(Member(raw, self))
         return ret
 
