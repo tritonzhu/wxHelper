@@ -1,4 +1,5 @@
 from tornado.web import RequestHandler
+from tornado.escape import json_decode
 from bot import Bot
 
 bot = Bot()
@@ -36,6 +37,10 @@ class FriendsHandler(RequestHandler):
             'friends': [friend.to_json() for friend in bot.friends()]
         }
         self.write(response)
+    def post(self):
+        data = json_decode(self.request.body)
+        bot.add_friend(data['user_name'], data['verify_msg'])
+        self.write('ok')
 
 
 class GroupHandler(RequestHandler):
