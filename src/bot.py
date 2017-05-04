@@ -57,7 +57,7 @@ class Bot:
         return None
 
     def groups(self):
-        groups = itchat.get_chatrooms()
+        groups = itchat.get_chatrooms(update=True)
         group_list = [Group(group, self) for group in groups]
         return group_list
 
