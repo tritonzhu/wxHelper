@@ -1,6 +1,8 @@
+import time
 from tornado.web import RequestHandler
 from tornado.escape import json_decode
 from bot import Bot
+
 
 bot = Bot()
 
@@ -22,6 +24,14 @@ class QrcodeHandler(RequestHandler):
 class LoginHandler(RequestHandler):
     def get(self):
         self.write(bot.login())
+
+
+class CheckLoginHandler(RequestHandler):
+    def get(self):
+        if bot.is_logged_in():
+            self.write('true')
+        else:
+            self.write('false')
 
 
 class LogoutHandler(RequestHandler):

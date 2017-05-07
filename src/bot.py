@@ -1,5 +1,4 @@
 import io
-import requests
 import itchat
 from entity import Group, Friend
 
@@ -13,12 +12,13 @@ headers = {
 
 class Bot:
     def __init__(self):
-        self.session = requests.session()
         self.uuid = None
+        self.core = itchat.Core()
         self.is_logging = True
+        self.is_logged = False
 
     def get_uuid(self):
-        self.uuid = itchat.get_QRuuid()
+        self.uuid = self.core.get_QRuuid()
         print(self.uuid)
 
     def get_qrcode(self):
@@ -29,27 +29,31 @@ class Bot:
         return qr_bytes.getvalue()
 
     def login(self):
-        status = itchat.check_login()
+        status = self.core.check_login()
         print(status)
         if status == '200':
             print('logged in')
-            itchat.web_init()
-            itchat.show_mobile_login()
-            itchat.get_contact(True)
+            self.core.web_init()
+            self.core.show_mobile_login()
+            self.core.get_contact(True)
             self.is_logging = False
-            itchat.start_receiving()
+            self.is_logged = True
+            self.core.start_receiving()
         return status
 
+    def is_logged_in(self):
+        return self.is_logged and self.core.alive
+
     def logout(self):
-        itchat.logout()
+        self.core.logout()
 
     def friends(self):
-        friends = itchat.get_friends()
+        friends = self.core.get_friends()
         friend_list = [Friend(friend, self) for friend in friends]
         return friend_list
 
     def search_friend(self, user_name):
-        friends = itchat.get_friends()
+        friends = self.core.get_friends()
         friend_list = [Friend(friend, self) for friend in friends]
         for friend in friend_list:
             if friend.user_name == user_name:
@@ -57,12 +61,12 @@ class Bot:
         return None
 
     def groups(self):
-        groups = itchat.get_chatrooms(update=True)
+        groups = self.core.get_chatrooms(update=True)
         group_list = [Group(group, self) for group in groups]
         return group_list
 
     def search_group(self, user_name):
-        groups = itchat.get_chatrooms()
+        groups = self.core.get_chatrooms()
         group_list = [Group(group, self) for group in groups]
         for group in group_list:
             if group.user_name == user_name:
@@ -70,25 +74,26 @@ class Bot:
         return None
 
     def get_friend_avatar(self, user_name):
-        return itchat.get_head_img(userName=user_name)
+        return self.core.get_head_img(userName=user_name)
 
     def get_group_avatar(self, user_name):
-        return itchat.get_head_img(chatroomUserName=user_name)
+        return self.core.get_head_img(chatroomUserName=user_name)
 
     def get_group_member_avatar(self, group_user_name, user_name):
-        return itchat.get_head_img(chatroomUserName=group_user_name, userName=user_name)
+        return self.core.get_head_img(chatroomUserName=group_user_name, userName=user_name)
 
     def add_friend(self, user_name, verify_content=''):
-        return itchat.add_friend(user_name, verifyContent=verify_content)
+        return self.core.add_friend(user_name, verifyContent=verify_content)
 
     def accept_friend(self, user_name, verify_content=''):
-        return itchat.add_friend(user_name, status=3, verifyContent=verify_content)
+        return self.core.add_friend(user_name, status=3, verifyContent=verify_content)
 
     def set_alias(self, user_name, remark_name):
-        return itchat.set_alias(user_name, remark_name)
+        return self.core.set_alias(user_name, remark_name)
 
     def update_chatroom(self, user_name, member_details=False):
-        return itchat.update_chatroom(user_name, detailedMember=member_details)
+        return self.core.update_chatroom(user_name, detailedMember=member_details)
+
 
 if __name__ == '__main__':
     bot = Bot()
