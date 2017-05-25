@@ -9,7 +9,8 @@ bot = Bot()
 
 class RootHandler(RequestHandler):
     def get(self):
-        self.redirect('http://127.0.0.1:8080/index')
+        self.render('index.html')
+        # self.redirect('http://127.0.0.1:8080/login')
         # self.write('hello')
 
 
