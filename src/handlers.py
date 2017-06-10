@@ -1,7 +1,7 @@
 import time
 from tornado.web import RequestHandler
 from tornado.escape import json_decode
-from bot import Bot
+from .bot import Bot
 
 
 bot = Bot()

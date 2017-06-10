@@ -1,6 +1,6 @@
 import tornado.ioloop
-import handlers
 import tornado.web
+from . import handlers
 
 routers = [
     (r'/', handlers.RootHandler),
@@ -16,7 +16,7 @@ routers = [
     (r'/api/groups/(@@[a-z0-9]+)/(@[a-z0-9]+)/avatar', handlers.GroupMemberAvatarHandler),
 ]
 
-application = tornado.web.Application(handlers=routers, template_path='../templates', static_path='../static')
+application = tornado.web.Application(handlers=routers, template_path='templates', static_path='static')
 
 if __name__ == "__main__":
     application.listen(11235)

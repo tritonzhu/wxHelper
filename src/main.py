@@ -8,8 +8,8 @@ from PyQt5.QtCore import QThread
 from PyQt5.QtGui import QIcon
 import tornado.ioloop
 
-import config
-from tornadoapp import application
+from . import config
+from .tornadoapp import application
 
 
 class WebDaemon(QThread):
@@ -22,7 +22,7 @@ class WebDaemon(QThread):
         tornado.ioloop.IOLoop.current().start()
 
 
-if __name__ == '__main__':
+def start():
     # win vista and above
     if platform.system().lower() == "windows" and platform.version() >= '6.0':
         appid = 'me.muyan.wxhelper'
@@ -38,7 +38,7 @@ if __name__ == '__main__':
     webview.setUrl(QtCore.QUrl(config.BASE_URL))
     webview.setWindowTitle("微信助手")
 
-    icon = QIcon('../icon/icon.ico')
+    icon = QIcon('icon/icon.ico')
     webview.setWindowIcon(icon)
     #webview.setContextMenuPolicy(False)
 

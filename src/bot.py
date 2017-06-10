@@ -1,6 +1,6 @@
 import io
 import itchat
-from entity import Group, Friend
+from .entity import Group, Friend
 
 from pyqrcode import QRCode
 
