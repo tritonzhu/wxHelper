@@ -11,13 +11,14 @@ data_files = [
 ]
 
 binary_files = [
-    ('icon', 'icon')
+    ('icon', 'icon'),
+    (os.path.join(ntpath.dirname(PyQt5.__file__), 'Qt', 'bin'), 'PyQt5\\Qt\\bin'),
+    (os.path.join(ntpath.dirname(PyQt5.__file__), 'Qt', 'resources'), 'PyQt5\\Qt\\resources'),
+    (os.path.join(ntpath.dirname(PyQt5.__file__), 'Qt', 'translations'), 'PyQt5\\Qt\\translations'),
+
 ]
 
-a = Analysis(['src\\main.py'],
-             pathex=[os.path.join(ntpath.dirname(PyQt5.__file__), 'Qt', 'bin'),
-             os.path.join(ntpath.dirname(PyQt5.__file__), 'Qt', 'plugins'),
-             'src\\'],
+a = Analysis(['entry.py'],
              binaries=binary_files,
              datas=data_files,
              hiddenimports=[],
@@ -33,10 +34,10 @@ exe = EXE(pyz,
           a.scripts,
           exclude_binaries=True,
           name='wxHelper',
-          debug=True,
+          debug=False,
           strip=False,
           upx=False,
-          console=True,
+          console=False,
           icon='icon/icon.ico')
 coll = COLLECT(exe,
                a.binaries,
