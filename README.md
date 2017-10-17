@@ -24,7 +24,6 @@
 
    > ``` 
    > pip install virtualenv
-   > pip install virtualenv
    > virtualenv venv
    > source venv/Scripts/activate
    > ```
@@ -35,7 +34,7 @@
    > pip install -r requirements.txt
    > ```
 
-5. Install pyinstaller developer version since pyinstaller 3.2.1 doesn't install Python3.6 yet
+5. Install pyinstaller developer version since pyinstaller 3.2.1 doesn't support Python3.6 yet
 
    > ```
    > pip install https://github.com/pyinstaller/pyinstaller/archive/develop.zip
